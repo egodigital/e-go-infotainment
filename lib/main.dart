@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
+import 'package:egoinfotainment/config.dart';
 import 'package:egoinfotainment/widgets/dashboard.dart';
 
 import 'dart:async';
 import 'api/api.dart';
 
 void main() {
-  const interval = const Duration(seconds:10);
-  new Timer.periodic(interval, (Timer t) {
+  new Timer.periodic(UPDATE_INTERNVAL, (Timer t) {
     EgoApi().getSignal();
   });
   runApp(MyApp());

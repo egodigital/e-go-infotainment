@@ -1,6 +1,8 @@
+import 'dart:async';
+import 'package:flutter/material.dart';
+
 import 'package:egoinfotainment/api/api.dart';
 import 'package:egoinfotainment/api/params.dart';
-import 'package:flutter/material.dart';
 
 class TemperatureControl extends StatefulWidget {
   @override
@@ -9,43 +11,48 @@ class TemperatureControl extends StatefulWidget {
 
 class _TemperatureControlState extends State<TemperatureControl>
     with SingleTickerProviderStateMixin {
+  StreamSubscription<Carparams> _notificationSubscription;
+
+  int _currentTemperature;
+  int _expectedTemperature = 20;
+  String _expectedTemperatureUnit = "°C";
   double _iconSize = 48;
-  AnimationController _playPauseController;
 
   @override
   void initState() {
     super.initState();
-    _playPauseController = AnimationController(
-      duration: const Duration(milliseconds: 300),
-      value: 1.0,
-      vsync: this,
-    );
+    _notificationSubscription =
+        EgoApi.notificationController.stream.listen((value) {
+      setState(() {
+        _currentTemperature = value.temperatureInside;
+      });
+    });
   }
 
   @override
   void dispose() {
-    _playPauseController.dispose();
+    _notificationSubscription.cancel();
     super.dispose();
   }
 
-  get isPlaying => _playPauseController.value > 0.5;
-
-  play() {
-    print('play');
-    _playPauseController.forward();
+  decreaseTemperature() {
+    setState(() {
+      _expectedTemperature--;
+    });
+    changeRemoteTemperature(_expectedTemperature);
   }
 
-  pause() {
-    print('pause');
-    _playPauseController.reverse();
+  increaseTemperature() {
+    setState(() {
+      _expectedTemperature++;
+    });
+    changeRemoteTemperature(_expectedTemperature);
   }
 
-  togglePlayPause() {
-    if (isPlaying) {
-      pause();
-    } else {
-      play();
-    }
+  changeRemoteTemperature(int temperature) {
+    Carparams carparams = Carparams();
+    carparams.temperatureInside = temperature;
+    EgoApi().patchSignal(carparams);
   }
 
   @override
@@ -57,25 +64,24 @@ class _TemperatureControlState extends State<TemperatureControl>
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             IconButton(
-              icon: Icon(Icons.plus_one, size: _iconSize),
+              icon: Icon(Icons.arrow_drop_down, size: _iconSize),
               iconSize: _iconSize,
               tooltip: 'Increase volume by 10',
-              onPressed: () {
-                Carparams carparams = Carparams();
-                carparams.temperatureInside = 16;
-                EgoApi().patchSignal(carparams);
-              },
+              onPressed: decreaseTemperature,
             ),
-            Text("12", style: TextStyle(fontSize:  32)),
+            Column(
+              children: <Widget>[
+                Text("$_expectedTemperature $_expectedTemperatureUnit",
+                    style: TextStyle(fontSize: 38)),
+                Text("Aktuell: $_currentTemperature $_expectedTemperatureUnit",
+                    style: TextStyle(fontSize: 16)),
+              ],
+            ),
             IconButton(
-              icon: Icon(Icons.plus_one, size: _iconSize),
+              icon: Icon(Icons.arrow_drop_up, size: _iconSize),
               iconSize: _iconSize,
               tooltip: 'Increase volume by 10',
-              onPressed: () {
-                Carparams carparams = Carparams();
-                carparams.temperatureInside = 18;
-                EgoApi().patchSignal(carparams);
-              },
+              onPressed: increaseTemperature,
             ),
           ],
         ),

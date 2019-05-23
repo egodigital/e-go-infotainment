@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:egoinfotainment/dashboard.dart';
+import 'package:egoinfotainment/widgets/dashboard.dart';
 
 void main() => runApp(MyApp());
 

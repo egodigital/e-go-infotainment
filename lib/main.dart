@@ -5,6 +5,7 @@ import 'package:egoinfotainment/widgets/dashboard.dart';
 
 import 'dart:async';
 import 'api/api.dart';
+import 'api/warning.dart';
 
 void main() {
   new Timer.periodic(UPDATE_INTERNVAL, (Timer t) {
@@ -19,15 +20,18 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  showWarning() {
-    showModalBottomSheet<void>(
-        context: context,
-        builder: (BuildContext context) {
-          return new Column(
-            mainAxisSize: MainAxisSize.min,
-            children: <Widget>[Text('hallo')],
-          );
-        });
+  WarningEvaluator _warningEvaluator;
+
+  @override
+  void dispose() {
+    _warningEvaluator.dispose();
+    super.dispose();
+  }
+
+  @override
+  void initState() {
+    _warningEvaluator = WarningEvaluator();
+    super.initState();
   }
 
   @override

@@ -30,8 +30,12 @@ class _DashboardPageState extends State<DashboardPage> {
     super.initState();
   }
 
-  showWarning(Warning warning) {
-    showModalBottomSheet<void>(
+  showWarning(Warning warning) async {
+    final duration = Duration(seconds: 15);
+    final timer = new Timer(duration, () {
+      Navigator.pop(context);
+    });
+    await showModalBottomSheet<void>(
         context: context,
         builder: (BuildContext context) {
           return new Column(
@@ -39,10 +43,7 @@ class _DashboardPageState extends State<DashboardPage> {
             children: <Widget>[Warnings(warning)],
           );
         });
-    final duration = Duration(seconds: 15);
-    new Timer(duration, () {
-      Navigator.pop(context);
-    });
+    timer.cancel();
   }
 
   @override

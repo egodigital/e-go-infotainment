@@ -22,39 +22,37 @@ class _SpeedMeterState extends State<SpeedMeter> with TickerProviderStateMixin {
   int _maxSpeed = 180;
   double _percentage = 0;
 
+  void updateSpeed(int value) {
+    int oldSpeed = _speed;
+    setState(() {
+      _speed = value;
+    });
+    _percentageAnimation = Tween<double>(begin: oldSpeed / _maxSpeed, end: _speed / _maxSpeed).animate(_percentageAnimationController)
+          ..addListener(() {
+             setState(() {
+               _percentage = _percentageAnimation.value;
+             });
+           });
+    _percentageAnimationController.forward(from: 0);
+  }
+
   @override
   void initState() {
     super.initState();
+    _percentageAnimationController = AnimationController(duration: const Duration(milliseconds: 500), vsync: this);
 
-    new Timer.periodic(Duration(seconds: 3), (Timer t) {
-      _speed = Random().nextInt(120);
-      _percentageAnimationController.forward();
-    });
-
-    /*
     _notificationSubscription =
         EgoApi.notificationController.stream.listen((value) {
-      setState(() {
-        _speed = value.speed;
-        _percentageAnimationController.forward();
-      });
-    });
-    */
-    _percentageAnimationController = new AnimationController(
-        vsync: this,
-      duration: new Duration(milliseconds: 5000)
-    )
-    ..addListener((){
-      setState(() {
-        _percentage = max(0, min(_speed / _maxSpeed, 1));
-      });
+          updateSpeed(value.speed);
     });
   }
 
   @override
   void dispose() {
     _notificationSubscription.cancel();
-    _percentageAnimationController.dispose();
+    if (_percentageAnimationController != null) {
+      _percentageAnimationController.dispose();
+    }
     super.dispose();
   }
 

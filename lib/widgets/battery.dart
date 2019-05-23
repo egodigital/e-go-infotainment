@@ -18,16 +18,17 @@ class _BatteryMeterState extends State<BatteryMeter> with TickerProviderStateMix
   Animation<double> _percentageAnimation;
   AnimationController _percentageAnimationController;
 
-  int _speed = 0;
-  int _maxSpeed = 200;
+  int _loadingCap = 0;
+  int _calculatedRemainingDistance = 0;
   double _percentage = 0;
 
-  void updateSpeed(int value) {
-    int oldSpeed = _speed;
+  void updateCap(int value, int calculatedRemainingDistance) {
+    int oldSpeed = _loadingCap;
     setState(() {
-      _speed = min(value, _maxSpeed);
+      _loadingCap = value;
+      _calculatedRemainingDistance = calculatedRemainingDistance;
     });
-    _percentageAnimation = Tween<double>(begin: oldSpeed / _maxSpeed, end: _speed / _maxSpeed).animate(_percentageAnimationController)
+    _percentageAnimation = Tween<double>(begin: oldSpeed / 100, end: _loadingCap / 100).animate(_percentageAnimationController)
       ..addListener(() {
         setState(() {
           _percentage = _percentageAnimation.value;
@@ -43,7 +44,7 @@ class _BatteryMeterState extends State<BatteryMeter> with TickerProviderStateMix
 
     _notificationSubscription =
         EgoApi.notificationController.stream.listen((value) {
-          updateSpeed(value.speed);
+          updateCap(value.batteryStateOfCharge, value.calculatedRemainingDistance);
         });
   }
 
@@ -61,21 +62,18 @@ class _BatteryMeterState extends State<BatteryMeter> with TickerProviderStateMix
     return Container(
       child: Padding(
         padding: const EdgeInsets.all(16.0),
-        child: Container(
-          height: 80.0,
-          width: 200.0,
-          child: new CustomPaint(
-            foregroundPainter: MyPainter(_percentage),
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                new Text("$_speed",
-                    style: TextStyle(fontSize: 32, color: Colors.white)),
-                new Text("km/h",
-                    style: TextStyle(fontSize: 18, color: Colors.white)),
-              ],
+        child: Column(
+          children: <Widget>[
+            Container(
+              height: 20.0,
+              width: 200.0,
+              child: CustomPaint(
+                foregroundPainter: MyPainter(_percentage),
+              ),
             ),
-          ),
+            Text("Akku: $_loadingCap %", style: TextStyle(fontSize: 24, color: Colors.white)),
+            Text("Restreichweite: $_calculatedRemainingDistance km", style: TextStyle(fontSize: 24, color: Colors.white)),
+          ],
         ),
       ),
     );
@@ -89,35 +87,29 @@ class MyPainter extends CustomPainter {
 
   @override
   void paint(Canvas canvas, Size size) {
-    final hot = percentage > 0.8;
+    final width = 200.0;
+    final hot = percentage < 0.8;
 
     Paint backgroundLine = Paint()
-      ..color = hot ? Colors.red.shade800 : Colors.blue.shade800
+      ..color = hot ? Colors.red.shade800 : Colors.green.shade800
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke
       ..strokeWidth = 12;
     Paint speedLine = Paint()
-      ..color = hot ? Colors.red.shade400 : Colors.blue.shade200
+      ..color = hot ? Colors.red.shade400 : Colors.green.shade500
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke
       ..strokeWidth = 12;
 
-    final center = Offset(size.width / 2, size.height / 2);
-    final radius = min(size.width / 2, size.height / 2);
-
-    canvas.drawArc(
-      Rect.fromCircle(center: center, radius: radius),
-      0.4 * pi * 2.0,
-      0.7 * pi * 2.0,
-      false,
+    canvas.drawLine(
+      Offset(0, 0),
+      Offset(width, 0),
       backgroundLine,
     );
 
-    canvas.drawArc(
-      Rect.fromCircle(center: center, radius: radius),
-      0.4 * pi * 2.0,
-      0.7 * pi * 2.0 * percentage,
-      false,
+    canvas.drawLine(
+      Offset(0, 0),
+      Offset(width * percentage, 0),
       speedLine,
     );
   }

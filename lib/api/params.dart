@@ -6,6 +6,17 @@ part 'params.g.dart';
 class Carparams {
   Carparams();
 
+  Map<String, dynamic> getPatch() {
+    Map<String, dynamic> json = toJson();
+    Map<String, dynamic> result = Map<String, dynamic>();
+    json.forEach((key, value) {
+      if (value != null) {
+        result[key] = value;
+      }
+    });
+    return result;
+  }
+
   @JsonKey(name: 'battery_chargin')
   String batteryCharging;
 

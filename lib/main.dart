@@ -40,7 +40,7 @@ class _MyAppState extends State<MyApp> {
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
-        scaffoldBackgroundColor: Colors.blueGrey,
+        scaffoldBackgroundColor: Color.fromRGBO(48, 48, 48, 1),
       ),
       home: DashboardPage(),
     );

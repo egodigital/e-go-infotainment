@@ -19,13 +19,13 @@ class _SpeedMeterState extends State<SpeedMeter> with TickerProviderStateMixin {
   AnimationController _percentageAnimationController;
 
   int _speed = 0;
-  int _maxSpeed = 180;
+  int _maxSpeed = 200;
   double _percentage = 0;
 
   void updateSpeed(int value) {
     int oldSpeed = _speed;
     setState(() {
-      _speed = value;
+      _speed = min(value, _maxSpeed);
     });
     _percentageAnimation = Tween<double>(begin: oldSpeed / _maxSpeed, end: _speed / _maxSpeed).animate(_percentageAnimationController)
           ..addListener(() {

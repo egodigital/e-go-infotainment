@@ -16,7 +16,7 @@ class _TemperatureControlState extends State<TemperatureControl>
   int _currentTemperature;
   int _expectedTemperature = 20;
   String _expectedTemperatureUnit = "°C";
-  double _iconSize = 48;
+  double _iconSize = 36;
 
   @override
   void initState() {
@@ -58,13 +58,14 @@ class _TemperatureControlState extends State<TemperatureControl>
   @override
   Widget build(BuildContext context) {
     return Card(
+      color: Colors.black,
       child: Padding(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(6.0),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             IconButton(
-              icon: Icon(Icons.arrow_drop_down, size: _iconSize),
+              icon: Icon(Icons.arrow_drop_down, size: _iconSize, color: Colors.white,),
               iconSize: _iconSize,
               tooltip: 'Increase volume by 10',
               onPressed: decreaseTemperature,
@@ -72,13 +73,13 @@ class _TemperatureControlState extends State<TemperatureControl>
             Column(
               children: <Widget>[
                 Text("$_expectedTemperature $_expectedTemperatureUnit",
-                    style: TextStyle(fontSize: 38)),
-                Text("Aktuell: $_currentTemperature $_expectedTemperatureUnit",
-                    style: TextStyle(fontSize: 16)),
+                    style: TextStyle(fontSize: 32, color: Colors.white)),
+                Text(_currentTemperature != null ? "Aktuell: $_currentTemperature $_expectedTemperatureUnit" : '',
+                    style: TextStyle(fontSize: 16, color: Colors.white)),
               ],
             ),
             IconButton(
-              icon: Icon(Icons.arrow_drop_up, size: _iconSize),
+              icon: Icon(Icons.arrow_drop_up, size: _iconSize, color: Colors.white),
               iconSize: _iconSize,
               tooltip: 'Increase volume by 10',
               onPressed: increaseTemperature,

@@ -55,7 +55,7 @@ class _DashboardPageState extends State<DashboardPage> {
       body: SafeArea(
         child: OrientationBuilder(builder: (context, orientation) {
           if (orientation == Orientation.portrait) {
-            double height = MediaQuery.of(context).size.height / 2;
+            double height = MediaQuery.of(context).size.height / 2 - 10;
             double width = MediaQuery.of(context).size.width;
             return Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -67,7 +67,7 @@ class _DashboardPageState extends State<DashboardPage> {
             );
           } else {
             double height = MediaQuery.of(context).size.height;
-            double width = MediaQuery.of(context).size.width / 2;
+            double width = MediaQuery.of(context).size.width / 2 - 10;
             return Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -113,7 +113,7 @@ class _DashboardPageState extends State<DashboardPage> {
                 child: ego.Radio(),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(left: 8, right: 8),
                 child: TemperatureControl(),
               ),
             ],

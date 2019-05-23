@@ -9,7 +9,7 @@ class EgoApi {
   String methodSignals = 'vehicle/signals';
   String apiKey = API_KEY;
 
-  static StreamController notificationController = StreamController.broadcast();
+  static StreamController<Carparams> notificationController = StreamController.broadcast();
 
   Future<Carparams> getSignal() async {
     try {

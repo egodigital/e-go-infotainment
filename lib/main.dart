@@ -2,7 +2,16 @@ import 'package:flutter/material.dart';
 
 import 'package:egoinfotainment/widgets/dashboard.dart';
 
-void main() => runApp(MyApp());
+import 'dart:async';
+import 'api/api.dart';
+
+void main() {
+  const interval = const Duration(seconds:10);
+  new Timer.periodic(interval, (Timer t) {
+    EgoApi().getSignal();
+  });
+  runApp(MyApp());
+}
 
 class MyApp extends StatelessWidget {
   @override

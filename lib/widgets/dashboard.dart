@@ -8,6 +8,8 @@ import 'package:egoinfotainment/widgets/radio.dart' as ego;
 import 'package:egoinfotainment/widgets/speedmeter.dart';
 import 'package:egoinfotainment/widgets/warnings.dart';
 
+import 'battery.dart';
+
 class DashboardPage extends StatefulWidget {
   @override
   _DashboardPageState createState() => _DashboardPageState();
@@ -55,22 +57,19 @@ class _DashboardPageState extends State<DashboardPage> {
       body: SafeArea(
         child: OrientationBuilder(builder: (context, orientation) {
           if (orientation == Orientation.portrait) {
-            double height = MediaQuery.of(context).size.height / 2 - 10;
+            double height = (MediaQuery.of(context).size.height - 100) / 2;
             double width = MediaQuery.of(context).size.width;
             return Column(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
+                buildStatusBar(context),
                 buildBox1(context, height, width),
                 buildBox2(context, height, width),
               ],
             );
           } else {
             double height = MediaQuery.of(context).size.height;
-            double width = MediaQuery.of(context).size.width / 2 - 10;
+            double width = (MediaQuery.of(context).size.width - 20) / 2;
             return Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 buildBox1(context, height, width),
                 buildBox2(context, height, width),
@@ -79,6 +78,13 @@ class _DashboardPageState extends State<DashboardPage> {
           }
         }),
       ),
+    );
+  }
+
+  Widget buildStatusBar(BuildContext context) {
+    return Container(
+      height: 80,
+      color: Colors.red,
     );
   }
 
@@ -94,6 +100,10 @@ class _DashboardPageState extends State<DashboardPage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: SpeedMeter(),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: BatteryMeter(),
             ),
           ],
         ),

@@ -7,12 +7,12 @@ import 'package:flutter/material.dart';
 import '../api/api.dart';
 import '../api/params.dart';
 
-class SpeedMeter extends StatefulWidget {
+class BatteryMeter extends StatefulWidget {
   @override
-  _SpeedMeterState createState() => _SpeedMeterState();
+  _BatteryMeterState createState() => _BatteryMeterState();
 }
 
-class _SpeedMeterState extends State<SpeedMeter> with TickerProviderStateMixin {
+class _BatteryMeterState extends State<BatteryMeter> with TickerProviderStateMixin {
   StreamSubscription<Carparams> _notificationSubscription;
 
   Animation<double> _percentageAnimation;
@@ -28,11 +28,11 @@ class _SpeedMeterState extends State<SpeedMeter> with TickerProviderStateMixin {
       _speed = min(value, _maxSpeed);
     });
     _percentageAnimation = Tween<double>(begin: oldSpeed / _maxSpeed, end: _speed / _maxSpeed).animate(_percentageAnimationController)
-          ..addListener(() {
-             setState(() {
-               _percentage = _percentageAnimation.value;
-             });
-           });
+      ..addListener(() {
+        setState(() {
+          _percentage = _percentageAnimation.value;
+        });
+      });
     _percentageAnimationController.forward(from: 0);
   }
 
@@ -44,7 +44,7 @@ class _SpeedMeterState extends State<SpeedMeter> with TickerProviderStateMixin {
     _notificationSubscription =
         EgoApi.notificationController.stream.listen((value) {
           updateSpeed(value.speed);
-    });
+        });
   }
 
   @override
@@ -62,7 +62,7 @@ class _SpeedMeterState extends State<SpeedMeter> with TickerProviderStateMixin {
       child: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Container(
-          height: 160.0,
+          height: 80.0,
           width: 200.0,
           child: new CustomPaint(
             foregroundPainter: MyPainter(_percentage),
@@ -70,7 +70,7 @@ class _SpeedMeterState extends State<SpeedMeter> with TickerProviderStateMixin {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 new Text("$_speed",
-                    style: TextStyle(fontSize: 52, color: Colors.white)),
+                    style: TextStyle(fontSize: 32, color: Colors.white)),
                 new Text("km/h",
                     style: TextStyle(fontSize: 18, color: Colors.white)),
               ],

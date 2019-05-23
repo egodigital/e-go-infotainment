@@ -52,7 +52,40 @@ class _DashboardPageState extends State<DashboardPage> {
       //  title: Text("e.GO"),
       // ),
       body: SafeArea(
-          child: Padding(
+        child: OrientationBuilder(builder: (context, orientation) {
+          if (orientation == Orientation.portrait) {
+            double height = MediaQuery.of(context).size.height / 2;
+            double width = MediaQuery.of(context).size.width;
+            return Column(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                buildBox1(context, height, width),
+                buildBox2(context, height, width),
+              ],
+            );
+          } else {
+            double height = MediaQuery.of(context).size.height;
+            double width = MediaQuery.of(context).size.width / 2;
+            return Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                buildBox1(context, height, width),
+                buildBox2(context, height, width),
+              ],
+            );
+          }
+        }),
+      ),
+    );
+  }
+
+  Widget buildBox1(BuildContext context, double height, double width) {
+    return Container(
+      width: width,
+      height: height,
+      child: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: <Widget>[
@@ -60,17 +93,30 @@ class _DashboardPageState extends State<DashboardPage> {
               padding: const EdgeInsets.all(8.0),
               child: SpeedMeter(),
             ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: ego.Radio(),
-            ),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: TemperatureControl(),
-            ),
           ],
         ),
-      )),
+      ),
+    );
+  }
+
+  Widget buildBox2(BuildContext context, double height, double width) {
+    return Container(
+      width: width,
+      height: height,
+      child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: <Widget>[
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: ego.Radio(),
+              ),
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: TemperatureControl(),
+              ),
+            ],
+          )),
     );
   }
 }

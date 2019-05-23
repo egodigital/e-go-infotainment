@@ -60,7 +60,7 @@ class _SpeedMeterState extends State<SpeedMeter> with TickerProviderStateMixin {
   Widget build(BuildContext context) {
     return Container(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.only(left: 16, right: 16),
         child: Container(
           height: 160.0,
           width: 200.0,

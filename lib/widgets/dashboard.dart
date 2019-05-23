@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:egoinfotainment/api/api.dart';
+import 'package:egoinfotainment/api/params.dart';
 import 'package:egoinfotainment/api/warning.dart';
 import 'package:egoinfotainment/widgets/temperature_control.dart';
 import 'package:flutter/material.dart';
@@ -17,10 +19,13 @@ class DashboardPage extends StatefulWidget {
 
 class _DashboardPageState extends State<DashboardPage> {
   StreamSubscription<Warning> _warningSubscription;
+  StreamSubscription<Carparams> _notificationSubscription;
+  Carparams currentParams;
 
   @override
   void dispose() {
     _warningSubscription.cancel();
+    _notificationSubscription.cancel();
     super.dispose();
   }
 
@@ -28,6 +33,11 @@ class _DashboardPageState extends State<DashboardPage> {
   void initState() {
     _warningSubscription = WarningEvaluator.warningController.stream.listen((warning) {
       showWarning(warning);
+    });
+    _notificationSubscription = EgoApi.notificationController.stream.listen((value) {
+      setState(() {
+        currentParams = value;
+      });
     });
     super.initState();
   }
@@ -57,7 +67,7 @@ class _DashboardPageState extends State<DashboardPage> {
       body: SafeArea(
         child: OrientationBuilder(builder: (context, orientation) {
           if (orientation == Orientation.portrait) {
-            double height = (MediaQuery.of(context).size.height - 100) / 2;
+            double height = (MediaQuery.of(context).size.height - 90) / 2;
             double width = MediaQuery.of(context).size.width;
             return Column(
               children: <Widget>[
@@ -67,12 +77,17 @@ class _DashboardPageState extends State<DashboardPage> {
               ],
             );
           } else {
-            double height = MediaQuery.of(context).size.height;
+            double height = MediaQuery.of(context).size.height - 70;
             double width = (MediaQuery.of(context).size.width - 20) / 2;
-            return Row(
+            return Column(
               children: <Widget>[
-                buildBox1(context, height, width),
-                buildBox2(context, height, width),
+                buildStatusBar(context),
+                Row(
+                  children: <Widget>[
+                    buildBox1(context, height, width),
+                    buildBox2(context, height, width),
+                  ],
+                ),
               ],
             );
           }
@@ -81,10 +96,56 @@ class _DashboardPageState extends State<DashboardPage> {
     );
   }
 
+  Widget icon(String name, Color color) {
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: Image(
+        color: color,
+        image: AssetImage('assets/'+ name + '.png'),
+        height: 30,
+      ),
+    );
+
+  }
+
   Widget buildStatusBar(BuildContext context) {
+    List<Widget> alerts = new List<Widget>();
+    if (currentParams != null) {
+      if (currentParams.batteryStateOfCharge < 15) {
+        alerts.add(icon('low_energy', Colors.red));
+      } else if (currentParams.batteryStateOfCharge < 30) {
+        alerts.add(icon('low_energy', Colors.orange));
+      }
+      if (currentParams.powerConsumption > 35) {
+        alerts.add(icon('high_consumption', Colors.red));
+      }
+      if (currentParams.tirePressureFrontRight < 2 || currentParams.tirePressureFrontLeft < 2 || currentParams.tirePressureBackRight < 2 || currentParams.tirePressureBackLeft < 2) {
+        alerts.add(icon('low_pressure', Colors.red));
+      } else if (currentParams.tirePressureFrontRight < 2.5 || currentParams.tirePressureFrontLeft < 2.5 || currentParams.tirePressureBackRight < 2.5 || currentParams.tirePressureBackLeft < 2.5) {
+        alerts.add(icon('low_pressure', Colors.orange));
+      }
+      if (currentParams.doorFrontLeft != 'closed' || currentParams.doorFrontRight != 'closed') {
+        alerts.add(icon('doors_open', Colors.orange));
+      }
+    }
     return Container(
-      height: 80,
-      color: Colors.red,
+      height: 70,
+      child: Padding(padding: EdgeInsets.only(top: 10, left: 16, right: 16),
+      child: Card(
+        color: Colors.black,
+        child: Padding(
+          padding: const EdgeInsets.only(left: 8.0, right: 8, top: 5),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text('18:10', style: TextStyle(color: Colors.white, fontSize: 32),),
+                Row(
+                  children: alerts,
+                )
+              ],
+          ),
+        ),
+      ),),
     );
   }
 

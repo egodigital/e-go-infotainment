@@ -60,7 +60,7 @@ class _BatteryMeterState extends State<BatteryMeter> with TickerProviderStateMix
   Widget build(BuildContext context) {
     return Container(
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.only(left: 16, right: 16),
         child: Container(
           height: 80.0,
           width: 200.0,

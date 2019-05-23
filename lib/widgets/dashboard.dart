@@ -1,3 +1,4 @@
+import 'package:egoinfotainment/widgets/temperature_control.dart';
 import 'package:flutter/material.dart';
 
 import 'package:egoinfotainment/widgets/radio.dart' as ego;
@@ -32,6 +33,10 @@ class _DashboardPageState extends State<DashboardPage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: ego.Radio(),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: TemperatureControl(),
             ),
           ],
         ),

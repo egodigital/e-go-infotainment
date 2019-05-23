@@ -36,9 +36,13 @@ class _DashboardPageState extends State<DashboardPage> {
         builder: (BuildContext context) {
           return new Column(
             mainAxisSize: MainAxisSize.min,
-            children: <Widget>[Text('Achtung' + warning.notification)],
+            children: <Widget>[Warnings(warning)],
           );
         });
+    final duration = Duration(seconds: 15);
+    new Timer(duration, () {
+      Navigator.pop(context);
+    });
   }
 
   @override
@@ -52,10 +56,6 @@ class _DashboardPageState extends State<DashboardPage> {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Warnings(),
-            ),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: SpeedMeter(),

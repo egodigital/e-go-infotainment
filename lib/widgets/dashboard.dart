@@ -122,11 +122,36 @@ class _DashboardPageState extends State<DashboardPage> {
 
   }
 
+  double isize = 40;
   Widget buildMenuVert(BuildContext context, double height) {
     return Container(
       width: 60,
       height: height,
-      color: Colors.green,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          IconButton(
+            icon: Icon(Icons.view_compact, color: Colors.white),
+            iconSize: isize,
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: Icon(Icons.music_note, color: Colors.white),
+            iconSize: isize,
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: Icon(Icons.navigation, color: Colors.white),
+            iconSize: isize,
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: Icon(Icons.more_horiz, color: Colors.white),
+            iconSize: isize,
+            onPressed: () {},
+          ),
+        ],
+      ),
     );
   }
 
@@ -134,7 +159,31 @@ class _DashboardPageState extends State<DashboardPage> {
     return Container(
       height: 60,
       width: width,
-      color: Colors.red,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: <Widget>[
+          IconButton(
+            icon: Icon(Icons.view_compact, color: Colors.white),
+            iconSize: isize,
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: Icon(Icons.music_note, color: Colors.white),
+            iconSize: isize,
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: Icon(Icons.navigation, color: Colors.white),
+            iconSize: isize,
+            onPressed: () {},
+          ),
+          IconButton(
+            icon: Icon(Icons.more_horiz, color: Colors.white),
+            iconSize: isize,
+            onPressed: () {},
+          ),
+        ],
+      )
     );
   }
 

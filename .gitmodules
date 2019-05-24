@@ -2,3 +2,6 @@
 	path = .flutter
 	url = https://github.com/flutter/flutter.git
 	branch = stable
+[submodule "flutter-desktop-embedding"]
+	path = flutter-desktop-embedding
+	url = https://github.com/google/flutter-desktop-embedding

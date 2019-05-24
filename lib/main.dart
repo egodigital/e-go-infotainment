@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart' show debugDefaultTargetPlatformOverride;
 import 'package:flutter/material.dart';
 
 import 'package:egoinfotainment/config.dart';
@@ -8,6 +9,9 @@ import 'api/api.dart';
 import 'api/warning.dart';
 
 void main() {
+  // See https://github.com/flutter/flutter/wiki/Desktop-shells#target-platform-override
+  debugDefaultTargetPlatformOverride = TargetPlatform.iOS;
+
   EgoApi().getSignal();
   new Timer.periodic(UPDATE_INTERNVAL, (Timer t) {
     EgoApi().getSignal();

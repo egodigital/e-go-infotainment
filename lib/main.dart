@@ -8,6 +8,7 @@ import 'api/api.dart';
 import 'api/warning.dart';
 
 void main() {
+  EgoApi().getSignal();
   new Timer.periodic(UPDATE_INTERNVAL, (Timer t) {
     EgoApi().getSignal();
   });

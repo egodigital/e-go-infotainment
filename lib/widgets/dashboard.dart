@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:egoinfotainment/widgets/radio.dart' as ego;
 import 'package:egoinfotainment/widgets/speedmeter.dart';
 import 'package:egoinfotainment/widgets/warnings.dart';
+import 'package:intl/intl.dart';
 
 import 'battery.dart';
 
@@ -21,6 +22,7 @@ class _DashboardPageState extends State<DashboardPage> {
   StreamSubscription<Warning> _warningSubscription;
   StreamSubscription<Carparams> _notificationSubscription;
   Carparams currentParams;
+  String _timeString;
 
   @override
   void dispose() {
@@ -31,6 +33,8 @@ class _DashboardPageState extends State<DashboardPage> {
 
   @override
   void initState() {
+    _timeString = DateFormat('hh:mm').format(DateTime.now());
+    Timer.periodic(Duration(seconds: 1), (Timer t) => _updateTime());
     _warningSubscription = WarningEvaluator.warningController.stream.listen((warning) {
       showWarning(warning);
     });
@@ -40,6 +44,14 @@ class _DashboardPageState extends State<DashboardPage> {
       });
     });
     super.initState();
+  }
+
+  _updateTime() {
+    final DateTime now = DateTime.now();
+    final String formattedDateTime = DateFormat('hh:mm').format(now);
+    setState(() {
+      _timeString = formattedDateTime;
+    });
   }
 
   showWarning(Warning warning) async {
@@ -138,7 +150,7 @@ class _DashboardPageState extends State<DashboardPage> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: <Widget>[
-                Text('18:10', style: TextStyle(color: Colors.white, fontSize: 32),),
+                Text(_timeString, style: TextStyle(color: Colors.white, fontSize: 32),),
                 Row(
                   children: alerts,
                 )

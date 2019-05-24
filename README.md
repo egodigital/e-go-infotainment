@@ -1,16 +1,17 @@
-# egoinfotainment
+# e.GOtainment
 
-A new Flutter project.
+A universal platform for Car infotainment usable built-in and all external devices. 
 
-## Getting Started
+This project has been created during the e.GO:digital Hackathon 23./24. Mai 2019 in Aachen
 
-This project is a starting point for a Flutter application.
+## Technology
 
-A few resources to get you started if this is your first Flutter project:
+The application is based on Google's Flutter SDK and can be run on basically all external devices (iPhone, Android, Windows, Mac OS, Raspberry, etc.). The application is connected with the car to control the car, get state information from the car with the advantage of having all possibilities of modern smartphones. 
 
-- [Lab: Write your first Flutter app](https://flutter.dev/docs/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://flutter.dev/docs/cookbook)
+## Participants
+Torsten Thissen 
+Christoph Jerolimov (@jerolimov)
+Christian Stahl (@thinkmobilede)
 
-For help getting started with Flutter, view our 
-[online documentation](https://flutter.dev/docs), which offers tutorials, 
-samples, guidance on mobile development, and a full API reference.
+## Resources
+- [Flutter SDK](https://flutter.dev/)

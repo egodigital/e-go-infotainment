@@ -41,7 +41,8 @@ class _MyAppState extends State<MyApp> {
       debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        platform: TargetPlatform.iOS,
+        primaryColor: Color(0xFF262626),
         scaffoldBackgroundColor: Color.fromRGBO(48, 48, 48, 1),
       ),
       home: DashboardPage(),

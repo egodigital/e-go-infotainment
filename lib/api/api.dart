@@ -5,9 +5,9 @@ import 'dart:convert';
 import 'params.dart';
 
 class EgoApi {
-  String apiUrl = 'https://ego-vehicle-api.azurewebsites.net/api/v1/';
-  String methodSignals = 'vehicle/signals';
+  String apiUrl = BASE_URL;
   String apiKey = API_KEY;
+  String methodSignals = 'vehicle/signals';
 
   static StreamController<Carparams> notificationController = StreamController.broadcast();
 

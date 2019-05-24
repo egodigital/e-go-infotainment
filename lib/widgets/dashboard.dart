@@ -79,18 +79,19 @@ class _DashboardPageState extends State<DashboardPage> {
       body: SafeArea(
         child: OrientationBuilder(builder: (context, orientation) {
           if (orientation == Orientation.portrait) {
-            double height = (MediaQuery.of(context).size.height - 90) / 2;
+            double height = (MediaQuery.of(context).size.height - 150) / 2;
             double width = MediaQuery.of(context).size.width;
             return Column(
               children: <Widget>[
                 buildStatusBar(context),
                 buildBox1(context, height, width),
                 buildBox2(context, height, width),
+                buildMenuHoriz(context, width),
               ],
             );
           } else {
             double height = MediaQuery.of(context).size.height - 70;
-            double width = (MediaQuery.of(context).size.width - 20) / 2;
+            double width = (MediaQuery.of(context).size.width - 80) / 2;
             return Column(
               children: <Widget>[
                 buildStatusBar(context),
@@ -98,6 +99,7 @@ class _DashboardPageState extends State<DashboardPage> {
                   children: <Widget>[
                     buildBox1(context, height, width),
                     buildBox2(context, height, width),
+                    buildMenuVert(context, height),
                   ],
                 ),
               ],
@@ -118,6 +120,22 @@ class _DashboardPageState extends State<DashboardPage> {
       ),
     );
 
+  }
+
+  Widget buildMenuVert(BuildContext context, double height) {
+    return Container(
+      width: 60,
+      height: height,
+      color: Colors.green,
+    );
+  }
+
+  Widget buildMenuHoriz(BuildContext context, double width) {
+    return Container(
+      height: 60,
+      width: width,
+      color: Colors.red,
+    );
   }
 
   Widget buildStatusBar(BuildContext context) {

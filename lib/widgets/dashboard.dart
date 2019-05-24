@@ -6,7 +6,7 @@ import 'package:egoinfotainment/api/warning.dart';
 import 'package:egoinfotainment/widgets/temperature_control.dart';
 import 'package:flutter/material.dart';
 
-import 'package:egoinfotainment/widgets/radio.dart' as ego;
+import 'package:egoinfotainment/widgets/radio.dart' as radio;
 import 'package:egoinfotainment/widgets/speedmeter.dart';
 import 'package:egoinfotainment/widgets/warnings.dart';
 import 'package:intl/intl.dart';
@@ -195,7 +195,7 @@ class _DashboardPageState extends State<DashboardPage> {
             children: <Widget>[
               Padding(
                 padding: const EdgeInsets.all(8.0),
-                child: ego.Radio(),
+                child: radio.RadioWidget(),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 8, right: 8),

@@ -77,10 +77,10 @@ class _DashboardPageState extends State<DashboardPage> {
       //  title: Text("e.GO"),
       // ),
       body: SafeArea(
-        child: OrientationBuilder(builder: (context, orientation) {
+        child: OrientationBuilder(builder: (orientationContext, orientation) {
           if (orientation == Orientation.portrait) {
-            double height = (MediaQuery.of(context).size.height - 150) / 2;
-            double width = MediaQuery.of(context).size.width;
+            double height = (MediaQuery.of(orientationContext).size.height - 210) / 2;
+            double width = MediaQuery.of(orientationContext).size.width;
             return Column(
               children: <Widget>[
                 buildStatusBar(context),
@@ -90,8 +90,8 @@ class _DashboardPageState extends State<DashboardPage> {
               ],
             );
           } else {
-            double height = MediaQuery.of(context).size.height - 70;
-            double width = (MediaQuery.of(context).size.width - 80) / 2;
+            double height = MediaQuery.of(orientationContext).size.height - 90;
+            double width = (MediaQuery.of(orientationContext).size.width - 170) / 2;
             return Column(
               children: <Widget>[
                 buildStatusBar(context),
@@ -159,8 +159,8 @@ class _DashboardPageState extends State<DashboardPage> {
       }
     }
     return Container(
-      height: 70,
-      child: Padding(padding: EdgeInsets.only(top: 10, left: 16, right: 16),
+      height: 60,
+      child: Padding(padding: EdgeInsets.only(left: 16, right: 16),
       child: Card(
         color: Colors.black,
         child: Padding(

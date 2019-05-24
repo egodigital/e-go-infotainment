@@ -16,7 +16,9 @@ class RadioPage extends StatelessWidget {
           child: ListTile(
             leading: Text("${index + 1}", style: TextStyle(color: Colors.white, fontSize: 26)),
             title: Text(sender[index], style: TextStyle(color: Colors.white, fontSize: 26)),
-            onTap: () {},
+            onTap: () {
+              Navigator.pop(context);
+            },
           ),
         ),
       ),

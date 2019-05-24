@@ -48,7 +48,7 @@ class _DashboardPageState extends State<DashboardPage> {
 
   _updateTime() {
     final DateTime now = DateTime.now();
-    final String formattedDateTime = DateFormat('hh:mm').format(now);
+    final String formattedDateTime = DateFormat('HH:mm').format(now);
     setState(() {
       _timeString = formattedDateTime;
     });

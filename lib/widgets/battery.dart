@@ -28,12 +28,13 @@ class _BatteryMeterState extends State<BatteryMeter> with TickerProviderStateMix
       _loadingCap = value;
       _calculatedRemainingDistance = calculatedRemainingDistance;
     });
-    _percentageAnimation = Tween<double>(begin: oldSpeed / 100, end: _loadingCap / 100).animate(_percentageAnimationController)
-      ..addListener(() {
-        setState(() {
-          _percentage = _percentageAnimation.value;
-        });
-      });
+    _percentageAnimation =
+        Tween<double>(begin: oldSpeed / 100, end: _loadingCap / 100).animate(_percentageAnimationController)
+          ..addListener(() {
+            setState(() {
+              _percentage = _percentageAnimation.value;
+            });
+          });
     _percentageAnimationController.forward(from: 0);
   }
 
@@ -42,10 +43,9 @@ class _BatteryMeterState extends State<BatteryMeter> with TickerProviderStateMix
     super.initState();
     _percentageAnimationController = AnimationController(duration: const Duration(milliseconds: 500), vsync: this);
 
-    _notificationSubscription =
-        EgoApi.notificationController.stream.listen((value) {
-          updateCap(value.batteryStateOfCharge, value.calculatedRemainingDistance);
-        });
+    _notificationSubscription = EgoApi.notificationController.stream.listen((value) {
+      updateCap(value.batteryStateOfCharge, value.calculatedRemainingDistance);
+    });
   }
 
   @override
@@ -60,21 +60,46 @@ class _BatteryMeterState extends State<BatteryMeter> with TickerProviderStateMix
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: <Widget>[
-            Container(
-              height: 20.0,
-              width: 200.0,
-              child: CustomPaint(
-                foregroundPainter: MyPainter(_percentage),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: <Widget>[
+              Container(
+                width: 200,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: <Widget>[
+                    Image(
+                      color: Colors.white,
+                      image: AssetImage('assets/low_energy.png'),
+                      height: 40,
+                    ),
+                    Column(
+                      children: <Widget>[
+                        Text("$_calculatedRemainingDistance km", style: TextStyle(fontSize: 28, color: Colors.white)),
+                        Text("$_loadingCap %", style: TextStyle(fontSize: 18, color: Colors.white)),
+                      ],
+                    ),
+                    Container(
+                      width: 24,
+                    ),
+                  ],
+                ),
               ),
-            ),
-            Text("Akku: $_loadingCap %", style: TextStyle(fontSize: 24, color: Colors.white)),
-            Text("Restreichweite: $_calculatedRemainingDistance km", style: TextStyle(fontSize: 20, color: Colors.white)),
-          ],
-        ),
+              Container(
+                margin: EdgeInsets.only(top: 15),
+                height: 5.0,
+                width: 200.0,
+                child: CustomPaint(
+                  foregroundPainter: MyPainter(_percentage),
+                ),
+              ),
+            ],
+          ),
+        ],
       ),
     );
   }
@@ -88,15 +113,16 @@ class MyPainter extends CustomPainter {
   @override
   void paint(Canvas canvas, Size size) {
     final width = 200.0;
-    final hot = percentage < 0.8;
+    final hot = percentage < 0.15;
+    final cold = percentage > 0.3;
 
     Paint backgroundLine = Paint()
-      ..color = hot ? Colors.red.shade800 : Colors.green.shade800
+      ..color = hot ? Colors.red.shade900 : cold ? Colors.green.shade900 : Colors.orange.shade900
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke
       ..strokeWidth = 12;
     Paint speedLine = Paint()
-      ..color = hot ? Colors.red.shade400 : Colors.green.shade500
+      ..color = hot ? Colors.red.shade400 : cold ? Colors.green.shade400 : Colors.orange.shade400
       ..strokeCap = StrokeCap.round
       ..style = PaintingStyle.stroke
       ..strokeWidth = 12;

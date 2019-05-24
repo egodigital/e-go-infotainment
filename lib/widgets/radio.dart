@@ -64,9 +64,7 @@ class _RadioState extends State<Radio> with SingleTickerProviderStateMixin {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    Text("WDR 2",
-                        style: TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
+                    Text("WDR 2", style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Colors.white)),
                     SizedBox(height: 8),
                     Text(
                       "Remmidemmi (Yippie Yippie Yeah) ",
@@ -87,32 +85,35 @@ class _RadioState extends State<Radio> with SingleTickerProviderStateMixin {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               IconButton(
-                icon: AnimatedIcon(
+                icon: Image(
                   color: Colors.white,
-                  icon: AnimatedIcons.play_pause,
-                  size: _iconSize,
-                  semanticLabel: 'play',
-                  progress: _playPauseController,
+                  image: AssetImage('assets/radio_list.png'),
                 ),
                 iconSize: _iconSize,
-                onPressed: togglePlayPause,
-              ),
-              IconButton(
-                icon: Icon(Icons.volume_mute, size: _iconSize, color: Colors.white),
-                iconSize: _iconSize,
-                tooltip: 'Increase volume by 10',
                 onPressed: () {},
               ),
               IconButton(
-                icon: Icon(Icons.volume_down, size: _iconSize, color: Colors.white),
+                icon: Image(
+                  color: Colors.white,
+                  image: AssetImage('assets/sound_off.png'),
+                ),
                 iconSize: _iconSize,
-                tooltip: 'Increase volume by 10',
                 onPressed: () {},
               ),
               IconButton(
-                icon: Icon(Icons.volume_up, size: _iconSize, color: Colors.white),
+                icon: Image(
+                  color: Colors.white,
+                  image: AssetImage('assets/sound_down.png'),
+                ),
                 iconSize: _iconSize,
-                tooltip: 'Increase volume by 10',
+                onPressed: () {},
+              ),
+              IconButton(
+                icon: Image(
+                  color: Colors.white,
+                  image: AssetImage('assets/sound_up.png'),
+                ),
+                iconSize: _iconSize,
                 onPressed: () {},
               ),
             ],
